@@ -1,0 +1,24 @@
+
+------------------------------------- /usr/local/apps/modulefiles-8 -------------------------------------
+   gcc/4.9.4    gcc/9.5         gcc/15.1                            mpich/3.4h_gcc-9
+   gcc/5.5      gcc/10.2        gcc/15.2                            mpich/4.0h_gcc-10
+   gcc/6.5      gcc/10.3        hdf5/1.12.0_ompi-4.1_gcc-12         openmpi/3.1_gcc-8.3
+   gcc/7.5      gcc/10.5        hdf5/1.12.2_ompi-4.0_gcc-10         openmpi/3.1_gcc-8.4
+   gcc/8.3      gcc/11.5        hypre/2.18_ompi-3.1_gcc-9.2         openmpi/3.1_gcc-8.5
+   gcc/8.4      gcc/12.2        hypre/2.19_ompi-3.1_gcc-9.2         openmpi/3.1_gcc-9.2
+   gcc/8.5      gcc/12.4        hypre/2.20_mpich-3.3_gcc-8.3 (D)    openmpi/4.0_gcc-10
+   gcc/9.2      gcc/12.5 (D)    hypre/2.20_ompi-3.1_gcc-9.2
+   gcc/9.3      gcc/13.4        mpich/3.3_gcc-8.3
+   gcc/9.4      gcc/14.3        mpich/3.3_gcc-8.4
+
+---------------------------------------- /apps/modulefiles/Core -----------------------------------------
+   gcc/6.3    mpich/3.4s_gcc-9     openmpi/4.0.7_gcc-11.5    openmpi/4.1.8_gcc-12.5 (D)
+   gcc/8.2    mvapich/2.3_gcc-9    openmpi/4.1_gcc-12
+
+  Where:
+   D:  Default Module
+
+Use "module spider" to find all possible modules and extensions.
+Use "module keyword key1 key2 ..." to search for all possible modules matching any of the "keys".
+
+
