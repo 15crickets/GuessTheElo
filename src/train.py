@@ -33,6 +33,7 @@ df["result"] = df.apply(convert_result, axis=1)
 drop_columns = [
     "elo",
     "termination",
+    "result",
     "color"
 ]
 

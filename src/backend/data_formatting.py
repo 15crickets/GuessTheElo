@@ -209,6 +209,53 @@ def stockfish_calcs_streaming(games, stockfish, output_path):
     print(f"Output:        {output_path}")
 
 
+def stockfish_move_scores(uci_moves, stockfish):
+
+    stockfish.set_fen_position(
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    )
+
+    positions = []
+
+    # Initial evaluation.
+    options = stockfish.get_top_moves(1)
+    initial_score = calculation_options(options)
+
+    if initial_score is None:
+        return None
+
+    positions.append(initial_score)
+
+    # Evaluate after every move.
+    for move in uci_moves:
+
+        try:
+            stockfish.make_moves_from_current_position([move])
+        except Exception as e:
+            print(f"Failed to make move {move}: {e}")
+            return None
+
+        options = stockfish.get_top_moves(1)
+        score = calculation_options(options)
+
+        if score is None:
+            return None
+
+        positions.append(score)
+
+    # Convert position evaluations to move losses.
+    move_scores = []
+
+    for i in range(len(positions) - 1):
+        pre = positions[i]
+        post = positions[i + 1]
+
+        loss = abs(post - pre)
+        move_scores.append(-loss)
+
+    return move_scores
+
+
 if __name__ == "__main__":
 
     print("=" * 50)
