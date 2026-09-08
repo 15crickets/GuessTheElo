@@ -90,7 +90,7 @@ def calculation_options(move_options):
     """Return the evaluation of Stockfish's top move."""
 
     if not move_options:
-        return None
+        return 0
 
     return option_score(move_options[0])
 

@@ -19,6 +19,8 @@ model = XGBRegressor()
 
 MODEL_PATH = BASE_DIR.parent.parent / "models" / "xgboost_model.json"
 
+STOCKFISH_PATH = "/opt/homebrew/bin/stockfish"
+
 model.load_model(str(MODEL_PATH))
 
 app = Flask(__name__)
@@ -27,7 +29,7 @@ CORS(app)  # allows your React dev server (different port) to call this API
 
 # Initialize Stockfish ONCE when the server starts
 stockfish = Stockfish(
-    path="../../Stockfish-sf_18/src/stockfish",
+    path=STOCKFISH_PATH,
     depth=6,
     parameters={
         "Threads": 1,
@@ -77,17 +79,28 @@ def guess_elo():
 
         X_single = X_single.drop(columns=drop_columns)
 
-        X_single["had_blunder"] = X_single["first_blunder_move"].notna().astype(int)
+        X_single["had_blunder"] = (
+            X_single["first_blunder_move"].notna().astype(int)
+        )
 
-        X_single["first_blunder_move"] = X_single["first_blunder_move"].fillna(-1)
+        X_single["first_blunder_move"] = (
+            pd.to_numeric(X_single["first_blunder_move"], errors="coerce")
+            .fillna(-1)
+            .astype(float)
+        )
 
 
+        elo_prediction = model.predict(X_single)
 
-        prediction = model.predict(X_single)
 
-
-        return jsonify({"elo": prediction[0]})
+        return jsonify({"elo": float(elo_prediction[0])})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=5001,
+        debug=True
+    )
